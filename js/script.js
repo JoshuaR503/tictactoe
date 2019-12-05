@@ -1,8 +1,49 @@
+let currentPlayer = 'x';
+let totalTurns = 0;
+let isGameFinished = false;
 
+// Perform Logic
+const performLogic = (btnId, titleId) => {
+    updateCurrentPlayer();
+}
 
+// Change current player
+const updateCurrentPlayer = () => {
+    switch (currentPlayer) {
+        case 'x':
+            currentPlayer = '0';
+            updateTitle('Current Player: X');
+            break;
 
+        case '0':
+            currentPlayer = 'x';
+            updateTitle('Current Player: 0');
+            break;
+    }
+}
 
+// Update counter
+const updateCounter = () => {
 
+    if (totalTurns !== 9) {
+        // End game
+        isGameFinished = false;
+        // Update DOM
+        updateTitle('It\s a draw!');
+    }
+
+    totalTurns++;
+}
+
+// Update content
+const updateTitle = (message) => {
+
+    // Headin one in the DOM.
+    const element = document.querySelector('#title');
+
+    // Change inner HTML.
+    element.innerHTML = message;
+}
 
 
 $("#button1").click(function() {
