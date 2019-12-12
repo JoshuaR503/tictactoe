@@ -4,18 +4,86 @@ let isGameFinished = false;
 
 // Perform Logic
 const performLogic = (btnId, titleId) => {
-    updateCurrentPlayer();
+
+
+    if (!isGameFinished) {
+        updateCurrentPlayer();
+        win();
+
+        $(btnId).text(currentPlayer);
+
+    }
+}
+
+// Check titles
+const checkTitles = (titleId, titleId2, titleId3) => {
+
+    const _titleId = $(`#${titleId}`).text();
+    const _titleId2 = $(`#${titleId2}`).text();
+    const _titleId3 = $(`#${titleId3}`).text();
+
+    console.log(_titleId, _titleId2, _titleId3)
+
+    const titlesMatch = 
+    _titleId == currentPlayer &&
+    _titleId2 == currentPlayer &&
+    _titleId3 == currentPlayer;
+
+    if (titlesMatch) {
+        return true;
+    }
+
+    return false;
+}
+
+// checkVerticalWins
+const checkVerticalWins = () => {
+    const con1 = checkTitles('button1', 'button4', 'button7');
+    const con2 = checkTitles('button2', 'button5', 'button8');
+    const con3 = checkTitles('button3', 'button6', 'button9');
+
+    if (con1 || con2 || con3) {
+        updateTitle(`user ${currentPlayer} won`);
+    }
+}
+
+// checkHoritzontalWins
+const checkHoritzontalWins = () => {
+    const con1 = checkTitles('button1', 'button2', 'button3');
+    const con2 = checkTitles('button4', 'button5', 'button6');
+    const con3 = checkTitles('button7', 'button8', 'button9');
+
+    if (con1 || con2 || con3) {
+        updateTitle(`user ${currentPlayer} won`);
+    }
+}
+
+// checkDiagonalWins
+const checkDiagonalWins = () => {
+    const con = checkTitles('button1', 'button2', 'button3');
+    const con2 = checkTitles('button7', 'button5', 'button3');
+
+    if (con || con2) {
+        updateTitle(`user ${currentPlayer} won`);
+    }
+}
+
+// win
+const win = () => {
+    checkVerticalWins();
+    checkHoritzontalWins();
+    checkDiagonalWins();
 }
 
 // Change current player
 const updateCurrentPlayer = () => {
     switch (currentPlayer) {
         case 'x':
-            currentPlayer = '0';
+            currentPlayer = 'o';
             updateTitle('Current Player: X');
             break;
 
-        case '0':
+        case 'o':
             currentPlayer = 'x';
             updateTitle('Current Player: 0');
             break;
@@ -32,6 +100,7 @@ const updateCounter = () => {
         updateTitle('It\s a draw!');
     }
 
+
     totalTurns++;
 }
 
@@ -45,9 +114,9 @@ const updateTitle = (message) => {
     element.innerHTML = message;
 }
 
-
 $("#button1").click(function() {
     performLogic("#button1","#tile1");
+
 });
 
 $("#button2").click(function() {
